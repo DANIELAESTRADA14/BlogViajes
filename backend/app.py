@@ -2,6 +2,7 @@ from flask import Flask, request
 from flask_restful import Resource, Api
 from flask_cors import CORS
 from resources.blogResources import Blog, BlogItem
+from resources.comentResources import Coment, ComentItem
 
 
 
@@ -20,6 +21,8 @@ def create_tables():
 
 api.add_resource(Blog, '/registros')
 api.add_resource(BlogItem, '/registro/<id>')
+api.add_resource(Coment, '/comentarios/<blogId>', '/comentarios')
+api.add_resource(ComentItem, '/comentario/<id>')
 
 if __name__ == '__main__':
     from db import db

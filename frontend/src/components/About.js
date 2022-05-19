@@ -3,6 +3,7 @@ import souvenirIMG from '../assets/souvenir.jpg'
 import reservaIMG from '../assets/reserva.jpg'
 import React from 'react'
 import './About.css'
+import { Link } from 'react-router-dom'
 
 
 export const About = () => {
@@ -12,13 +13,12 @@ export const About = () => {
             <div className="container">
                 <div className="row">
                     <div className="col-md-6 col-lg-4 col-12">
-                        <div className="card-deck">
-                            <div className="card mb-4">
+                       <div className="card-deck">
+                       <div className="card mb-4">
                                 <img className="card-img-top img-fluid" src={blogIMG} alt="Card image cap" />
                                 <div className="card-body">
-                                    <h4 className="card-title">¡Postea!</h4>
+                                <Link className="navbar-brand" to="/blog"> ¡Postea!</Link>
                                     <p className="card-text">Cuéntanos tu experiencia y ayuda a más viajeros a llegar a muchos lugares.</p>
-                                    
                                 </div>
                             </div>
                         </div>

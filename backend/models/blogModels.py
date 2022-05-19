@@ -4,14 +4,19 @@ class BlogModel(db.Model):
     __tablename__ = 'registros'
 
     id = db.Column(db.Integer, primary_key=True)
+    city = db.Column(db.String(80), nullable=False)
     title = db.Column(db.String(80), nullable=False)
     description = db.Column(db.String, nullable=False)
     username = db.Column(db.String(40), nullable=False)
 
-    def __init__(self, title,description,username):
+    coments = db.relationship('ComentModel', lazy='dynamic')
+
+    def __init__(self, city,title,description,username):
+        self.city = city
         self.title = title
         self.description = description
         self.username = username
+        
 
     def __repr__(self):
         return f'Register: {self.title}'
@@ -19,9 +24,11 @@ class BlogModel(db.Model):
     def json(self):
         return {
             'id': self.id,
+            'city': self.city,
             'title': self.title,
             'description': self.description,
-            'username': self.username
+            'username': self.username,
+            'coments': [coment.json() for coment in self.coments.all()]
         }
 
 #Base Models

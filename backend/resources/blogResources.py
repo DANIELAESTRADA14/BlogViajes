@@ -18,7 +18,7 @@ class Blog(Resource):
     
     def post(self):
         data = request.get_json()
-        registro = BlogModel(data["title"], data["description"],data["username"])
+        registro = BlogModel(data["city"],data["title"], data["description"],data["username"])
         registro.save()
         return registro.json()
     
@@ -36,6 +36,7 @@ class BlogItem(Resource):
         if registro is None:
             registro = BlogModel(id, **data)
         else:
+            registro.city = data['city']
             registro.title = data['title']
             registro.description = data['description']
             registro.username = data['username']
