@@ -5,11 +5,13 @@ import React from 'react'
 import './About.css'
 import { Link } from 'react-router-dom'
 
+const API = process.env.REACT_APP_API;
 
 export const About = () => {
 
     return (
         <>
+       
             <div className="container">
                 <div className="row">
                     <div className="col-md-6 col-lg-4 col-12">

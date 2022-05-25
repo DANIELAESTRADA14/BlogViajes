@@ -1,0 +1,31 @@
+.container-2 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  
+}
+
+.btn-flecha{
+   
+    background-color: black;
+    color: white;
+    width: 50px;
+    border-radius: 5px;
+    padding: 5px;
+    cursor: pointer;
+
+}
+
+.numpg{
+    width: 100px;
+    border: 2px solid black;
+    padding: 5px 20px;
+    border-radius: 5px;
+
+}
+
+button[disabled]{
+    background-color: gray;
+    cursor: no-drop;
+}

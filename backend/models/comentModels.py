@@ -1,6 +1,8 @@
 from db import db
 
 class ComentModel(db.Model):
+    """Se crea tabla comentarios y se hace la relación con la tabla registros
+    Tabla comentarios tiene llave foránea del id de registros"""
     __tablename__ = 'comentarios'
 
     id = db.Column(db.Integer, primary_key=True)

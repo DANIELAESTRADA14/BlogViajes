@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
+/**Este componente sirve para mirar cada uno de los blogs registrados con sus respectivos comentarios */
+
 const API = process.env.REACT_APP_API;
 
 
@@ -16,7 +18,7 @@ export const Info = () => {
     const [editing, setEditing] = useState(false)
     const [id, setId] = useState('')
 
-
+   
     const handleSubmit = async (e) => {
         e.preventDefault()
         if (!editing) {
@@ -62,6 +64,8 @@ export const Info = () => {
 
 }
 
+
+/**Obtención comentarios con su respectivo blogID */
 const getComents = async() => {
     const res =  await fetch(`${API}/comentarios/${blog_id}`)
     const data = await res.json()
@@ -96,6 +100,7 @@ useEffect(() => {
   
 }, [])
 
+
 const getRegistroId = async () => {
     const res = await fetch(`${API}/registro/${blog_id}`)
     const data = await res.json()
@@ -115,6 +120,8 @@ return (
             <p>By: {item.username}</p>
             <br></br>
             <p>{item.description}</p>
+            <br></br>
+            <p>{item.photo}</p>
             
 
         </div>

@@ -10,13 +10,18 @@ export const Navbar = () => (
         </button>
         <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav">
-               
+
                 <li className="nav-item">
-                    <Link className="nav-link" to="/">Sobre nosotros</Link>
+                    <Link className="nav-link" to="/">Login</Link>
                 </li>
-               
+                <li className="nav-item">
+                    <Link className="nav-link" to="/about">Sobre nosotros</Link>
+                </li>
+
+
             </ul>
         </div>
+
     </nav>
 
 )

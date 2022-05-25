@@ -9,6 +9,7 @@ coment_schema = ComentSchema
 
 
 class Coment(Resource):
+    """Se definen métodos del CRUD, el GET traerá solo el blogId correspondiente(GET, POST)"""
     def get(self, blogId):
         comentarios = ComentModel.get_all(blogId)
         comentarios_list = []
@@ -23,6 +24,7 @@ class Coment(Resource):
         return comentario.json()
     
 class ComentItem(Resource):
+    """Se definen métodos del CRUD OBTENIDOS POR ID(GET_BY_ID, PUT, DELETE)"""
     def get(self, id):
         comentario = ComentModel.get_by_id(id)
         if comentario:

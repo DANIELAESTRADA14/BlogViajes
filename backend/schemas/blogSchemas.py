@@ -7,3 +7,4 @@ class BlogSchema(ma.Schema):
     title = fields.String()
     description = fields.String()
     username = fields.String()
+    photo = fields.String()

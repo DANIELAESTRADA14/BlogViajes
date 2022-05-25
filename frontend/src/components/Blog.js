@@ -1,28 +1,41 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect} from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import './Blog.css'
 import { useNavigate } from 'react-router-dom';
+import { Paginacion } from "./Paginacion";
 
+/** Este componente sirve para realizar los registros del blog, a la vez de traer los registros de la bd y poder manipularlos
+ **/
+ 
 
-
+/**URL declarada en el .env*/
 const API = process.env.REACT_APP_API;
 
 export const Blog = () => {
 
-      let navigate = useNavigate()
-     
+     let navigate = useNavigate()
+
      const [city, setCity] = useState('');
      const [title, setTitle] = useState('');
      const [description, setDescription] = useState('');
      const [username, setUsername] = useState('');
+     
 
      const [id, setId] = useState('')
      const [editing, setEditing] = useState(false)
+     const [registrosList, setRegistrosList] = useState([]);
 
+     /**Busqueda */
      const [busqueda, setBusqueda] = useState('');
 
-     const [registrosList, setRegistrosList] = useState([]);
+
+     /**Paginacion*/
+     const [pagina, setPagina] = useState(1)
+     const [porPagina, setPorPagina] = useState(2)
+
+     const maximo = registrosList.length / porPagina
+     console.log(maximo)
 
 
      const handleSubmit = async (e) => {
@@ -58,7 +71,7 @@ export const Blog = () => {
                               title,
                               description,
                               username
-                             
+
                          }
                     )
                })
@@ -79,12 +92,12 @@ export const Blog = () => {
      const getRegistros = async () => {
           const res = await fetch(`${API}/registros`)
           const data = await res.json();
-
           console.log(data.registros);
           setRegistrosList(data.registros)
-          
-          
+
+
      }
+     
 
      const editRegistro = async (id) => {
           const res = await fetch(`${API}/registro/${id}`)
@@ -110,28 +123,28 @@ export const Blog = () => {
           }
      }
 
+     /**Funciones barra de búsqueda */
      const handleChange = e => {
           setBusqueda(e.target.value)
-         
+
      }
 
      let results = []
-     if (!busqueda){
+     if (!busqueda) {
           results = registrosList
      } else {
-         results = registrosList.filter((dato) => 
-          dato.title.toLowerCase().includes(busqueda.toLowerCase())
-          || dato.city.toLowerCase().includes(busqueda.toLowerCase())
-         )}
+          results = registrosList.filter((dato) =>
+               dato.city.toLowerCase().includes(busqueda.toLowerCase())
 
-     
-    
-     
+          )
+     }
+
+
      const clickTitle = (id) => {
           navigate('/info/' + id)
-          
+
      }
-     
+
      useEffect(() => {
           getRegistros();
      }, [])
@@ -145,7 +158,7 @@ export const Blog = () => {
                </div>
                <div className="col-md-12">
                     <form onSubmit={handleSubmit} className="card card-body">
-                    <div className="form-group">
+                         <div className="form-group">
                               <input
                                    type="text"
                                    onChange={e => setCity(e.target.value)}
@@ -199,7 +212,7 @@ export const Blog = () => {
                          <input
                               className="form-control inputBuscar"
                               value={busqueda}
-                              placeholder="Buscar ciudad"
+                              placeholder="Buscar ciudad/pais"
                               onChange={handleChange}
                          />
                          <button className="btn btn-success">
@@ -211,45 +224,48 @@ export const Blog = () => {
                          <table className="table table-bordered">
                               <thead>
                                    <tr>
-                                   <th>Id</th>
-                                        <th>City</th>
-                                        <th>Title</th>
-                                        <th>User name</th>
-                                        <th>Operations</th>
-                                       
+                                        <th scope="col" style={{ width: 30 }}>Id</th>
+                                        <th scope="col" style={{ width: 50 }}>City</th>
+                                        <th scope="col" style={{ width: 150 }}>Title</th>
+                                        <th scope="col" style={{ width: 100 }}>User name</th>
+                                        <th scope="col" style={{ width: 150 }}>Operations</th>
+
                                    </tr>
                               </thead>
                               <tbody>
 
-                                   {results.map((registro) => (
-                                        <tr key={registro.id}>
-                                             <td>{registro.id}</td>
-                                             <td>{registro.city}</td>
-                                             <td onClick={() => clickTitle(registro.id)} style={{textDecoration: "underline", cursor:"pointer"}}>{registro.title}</td>
-                                             <td>{registro.username}</td>
-                                            
-                                             <td>
-                                                  <button
-                                                       className="btn btn-secondary btn-block"
-                                                       onClick={() => editRegistro(registro.id)}
-                                                  >
-                                                       Edit
-                                                  </button>
-                                                  <button
-                                                       className="btn btn-danger btn-block"
-                                                       onClick={() => deleteRegistro(registro.id)}
-                                                  >
-                                                       Delete
-                                                  </button>
-                                                
-                                             </td>
-                                        </tr>
-                                   ))
+                                   {results
+                                        .slice((pagina - 1) * porPagina, ((pagina - 1) * porPagina) + porPagina)
+                                        .map((registro) => (
+                                             <tr key={registro.id}>
+                                                  <td>{registro.id}</td>
+                                                  <td>{registro.city}</td>
+                                                  <td onClick={() => clickTitle(registro.id)} style={{ textDecoration: "underline", cursor: "pointer" }}>{registro.title}</td>
+                                                  <td>{registro.username}</td>
+
+                                                  <td>
+                                                       <button
+                                                            className="btn btn-secondary btn-block"
+                                                            onClick={() => editRegistro(registro.id)}
+                                                       >
+                                                            Edit
+                                                       </button>
+                                                       <button
+                                                            className="btn btn-danger btn-block"
+                                                            onClick={() => deleteRegistro(registro.id)}
+                                                       >
+                                                            Delete
+                                                       </button>
+
+                                                  </td>
+                                             </tr>
+                                        ))
                                    }
                               </tbody>
                          </table>
                     </div>
                </div>
+               <Paginacion pagina={pagina} setPagina={setPagina} maximo={maximo} />
           </div>
      )
 }
