@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
+
 /**Este componente sirve para mirar cada uno de los blogs registrados con sus respectivos comentarios */
 
 const API = process.env.REACT_APP_API;
@@ -112,7 +113,8 @@ const getRegistroId = async () => {
 return (
     <>
 
-        <div className="container">
+
+            <div className="container p-4">
             <br />
             <h1>{item.title}</h1>
             <br></br>
@@ -131,10 +133,10 @@ return (
 
         <div className="row">
             <div>
-                <h2>¡Deja tu comentario!</h2>
+                <h2 style={{textAlign: "center"}}>¡Deja tu comentario!</h2>
                 <br></br>
             </div>
-            <div className="col-md-12">
+            <div className="col-md-10" style={{margin: "auto"}}>
                 <form onSubmit={handleSubmit} className="card card-body">
                     <div className="form-group">
                         <input
@@ -166,7 +168,7 @@ return (
 
             <div style={{ marginTop: "80px" }}>
                 
-                <div className="col-md-12">
+                <div className="col-md-10" style={{margin: "auto"}}>
                     <table className="table table-bordered">
                         <thead>
                             <tr>

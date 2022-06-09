@@ -9,7 +9,7 @@ class BlogModel(db.Model):
     title = db.Column(db.String(80), nullable=False)
     description = db.Column(db.String, nullable=False)
     username = db.Column(db.String(40), nullable=False)
-    photo = db.Column(db.String(200), nullable=False)
+    photo = db.Column(db.String(200))
 
 
     coments = db.relationship('ComentModel', lazy='dynamic')

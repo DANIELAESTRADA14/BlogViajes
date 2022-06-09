@@ -1,18 +1,22 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect,useContext } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import './Blog.css'
 import { useNavigate } from 'react-router-dom';
 import { Paginacion } from "./Paginacion";
+import { Context } from "../store/appContext";
+
 
 /** Este componente sirve para realizar los registros del blog, a la vez de traer los registros de la bd y poder manipularlos
  **/
- 
+
 
 /**URL declarada en el .env*/
 const API = process.env.REACT_APP_API;
 
 export const Blog = () => {
+
+     const { store, actions } = useContext(Context);
 
      let navigate = useNavigate()
 
@@ -20,7 +24,7 @@ export const Blog = () => {
      const [title, setTitle] = useState('');
      const [description, setDescription] = useState('');
      const [username, setUsername] = useState('');
-     
+
 
      const [id, setId] = useState('')
      const [editing, setEditing] = useState(false)
@@ -45,6 +49,7 @@ export const Blog = () => {
                     method: 'POST',
                     headers: {
                          'Content-Type': 'application/json'
+                         
                     },
                     body: JSON.stringify(
                          {
@@ -90,14 +95,27 @@ export const Blog = () => {
      }
 
      const getRegistros = async () => {
-          const res = await fetch(`${API}/registros`)
-          const data = await res.json();
-          console.log(data.registros);
-          setRegistrosList(data.registros)
+          const token = sessionStorage.getItem("token")
+          const res = await fetch(`${API}/registros`, {
+               method: 'GET',
+               headers: {
+                    "Authorization" : "Bearer " + token
+               }
+          })
 
+          try {
+               const data = await res.json();
+               console.log(data.registros);
+               setRegistrosList(data.registros)
+               return data.registros
+          }
+
+          catch (error) {
+               console.log("This is de error", error)
+          }
 
      }
-     
+
 
      const editRegistro = async (id) => {
           const res = await fetch(`${API}/registro/${id}`)
@@ -152,9 +170,11 @@ export const Blog = () => {
      return (
 
           <div className="row">
+
                <div>
                     <h2>¡Postea tu experiencia!</h2>
                     <br></br>
+
                </div>
                <div className="col-md-12">
                     <form onSubmit={handleSubmit} className="card card-body">
@@ -267,5 +287,6 @@ export const Blog = () => {
                </div>
                <Paginacion pagina={pagina} setPagina={setPagina} maximo={maximo} />
           </div>
+
      )
 }

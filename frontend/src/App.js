@@ -1,26 +1,40 @@
 import React from "react";
-import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
-import {About} from "./components/About";
-import {Blog} from "./components/Blog";
-import {Navbar} from "./components/Navbar"
-import {Info} from "./components/Info"
+import {BrowserRouter as Router, Routes, Route, BrowserRouter} from 'react-router-dom'
 import { Login } from "./components/Login";
+import injectContext from "./store/appContext";
+import { PublicRoutes } from "./Routes/PublicRoute";
+import { PrivateRoutes } from "./Routes/PrivateRouter";
+import { AppRouter } from "./Routes/AppRouter";
+
 
 
 function App() {
+
+  const basename = process.env.BASENAME || "";
+
   return (
-   <Router>
-     <Navbar/>
-     <div className="container p-4">
-       <Routes>
-         <Route path="/about" element={<About/>} />
-         <Route path="/blog" element={<Blog/>} />
-         <Route path="/info/:blog_id" element={<Info/>} />
-         <Route path="/" element={<Login/>} />
-       </Routes>
-     </div>
-   </Router>
+   <BrowserRouter>
+      <Routes>
+        <Route path="/login" element={ 
+
+          <PublicRoutes>
+            <Login/>
+          </PublicRoutes>
+          }
+        />
+        
+
+        <Route
+        path="/*"
+        element={
+          <PrivateRoutes>
+            <AppRouter/>
+          </PrivateRoutes>
+        }
+        />
+      </Routes>
+   </BrowserRouter>
   );
 }
 
-export default App;
+export default injectContext(App);

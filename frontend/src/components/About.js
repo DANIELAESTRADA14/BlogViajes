@@ -1,18 +1,25 @@
 import blogIMG from '../assets/blog.jpg'
 import souvenirIMG from '../assets/souvenir.jpg'
 import reservaIMG from '../assets/reserva.jpg'
+import { Context } from "../store/appContext";
 import React from 'react'
 import './About.css'
 import { Link } from 'react-router-dom'
+import { useContext } from 'react';
+
 
 const API = process.env.REACT_APP_API;
 
 export const About = () => {
 
+    const { store, actions } = useContext(Context);
+
     return (
         <>
        
             <div className="container">
+           
+          
                 <div className="row">
                     <div className="col-md-6 col-lg-4 col-12">
                        <div className="card-deck">
@@ -60,6 +67,7 @@ export const About = () => {
 
                     Contamos con una estructura armada de viajeros que nos envían notas, nos administran los grupos y somos considerados la mayor comunidad de mochileros y viajeros en la actualidad. Damos soporte totalmente gratuito a miles de viajeros cada mes con información y mensajes en tiempo real.</p>
             </div>
+           
         </>
 
     )
