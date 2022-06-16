@@ -1,3 +1,5 @@
+#definir dependencias que tengas que pip deba instalar
+
 Flask-JWT-Extended
 Flask-RESTful
 Flask-SQLAlchemy
